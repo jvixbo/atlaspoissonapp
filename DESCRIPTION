@@ -1,0 +1,12 @@
+Package: atlaspoissonapp
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person("Coline", "Badol", , "coline.badol@ofb.gouv.com", role = c("aut", "cre"))
+Description: Package servant à la creation de l'application de visualisation des poissons d'eau douce de Bretagne.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Imports: dplyr,
+    ggplot2
