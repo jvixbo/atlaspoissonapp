@@ -1,5 +1,5 @@
 Package: atlaspoissonapp
-Title: What the Package Does (One Line, Title Case)
+Title: Fonctions permettant la création de l'Atlas
 Version: 0.0.0.9000
 Authors@R: 
     person("Coline", "Badol", , "coline.badol@ofb.gouv.com", role = c("aut", "cre"))

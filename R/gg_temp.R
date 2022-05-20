@@ -24,15 +24,20 @@ gg_temp <- function(data, var_x, var_y) {
     geom_line() +
     coord_cartesian(ylim = c(0,NA))
 
-  mon_test <- lm(var_x ~ var_y, data)
+  # Regression linéaire
+  regression <- data %>%
+    lm(formula = !!var_y ~ !!var_x) %>%
+    summary()
 
-  if(mon_test > 0.5) {
-    g +
+  pvalue <- regression$coefficients[,4] %>%
+    as.data.frame() %>%
+
+  pvalue <- pvalue[-1,]
+
+  # Test
+  if(pvalue > 0.5) {
+    g <- g +
       geom_smooth(se = FALSE, method = "lm")
-  }
-
-  else {
-    g
   }
 
   g
