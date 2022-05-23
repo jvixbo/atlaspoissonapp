@@ -16,30 +16,38 @@
 
 gg_temp <- function(data, var_x, var_y) {
 
-  var_x <- enquo(var_x)
-  var_y <- enquo(var_y)
+  var_x <- enquo(var_x) # Pour que R sache que var_x fait partie de data
+  var_y <- enquo(var_y) # Pour que R sache que var_y fait partie de data
 
-  g <- ggplot(data, aes(!!var_x, !!var_y)) +
+  g <- ggplot(data, aes(!!var_x,!!var_y)) +
     geom_point() +
     geom_line() +
-    coord_cartesian(ylim = c(0,NA))
+    coord_cartesian(ylim = c(0, NA))
 
   # Regression linéaire
-  regression <- data %>%
-    lm(formula = !!var_y ~ !!var_x) %>%
-    summary()
 
-  pvalue <- regression$coefficients[,4] %>%
-    as.data.frame() %>%
+  if (nrow(data) > 2) # bug si moins de 2 données
+  {
+    y <- data %>%
+      pull(!!var_y) # Sinon erreur "object is not a matrix"
 
-  pvalue <- pvalue[-1,]
+    x <- data %>%
+      pull(!!var_x) # Sinon erreur "object is not a matrix"
 
-  # Test
-  if(pvalue > 0.5) {
-    g <- g +
-      geom_smooth(se = FALSE, method = "lm")
+    regression <- lm(y ~ x) %>%
+      summary()
+
+    pvalue <- regression$coefficients[2, 4] # Extraire pvalue
+
+
+    # Test
+    if (pvalue < 0.05) {
+      g <- g +
+        geom_smooth(se = FALSE, method = "lm")
+    }
   }
 
   g
+
 
 }
